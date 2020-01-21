@@ -4,14 +4,18 @@ const path = require('path'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const extractPlugin = new ExtractTextPlugin({filename: './assets/css/app.css'});
+const extractPlugin = new ExtractTextPlugin({ filename: './assets/css/app.css' });
 
 const config = {
 
   context: path.resolve(__dirname, 'src'),
 
   entry: {
-    app: './index.js'
+    app: [
+      './index.js',
+      '@babel/polyfill',
+      'whatwg-fetch',
+    ]
   },
 
   output: {
@@ -78,7 +82,7 @@ const config = {
 
   plugins: [
     new CleanWebpackPlugin(['dist']),
-    new HtmlWebpackPlugin({template: 'index.html'}),
+    new HtmlWebpackPlugin({ template: 'index.html' }),
     extractPlugin
   ],
 
