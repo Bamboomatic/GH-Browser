@@ -8,6 +8,10 @@ export class App {
 
     $('.load-username').on('click', function (e) {
       e.preventDefault();
+      $('.loader').removeClass('is-hidden')
+      $('.timeline').addClass('is-hidden')
+      $('.profile').addClass('is-hidden')
+
       let userName = $('.username.input').val();
 
       if (userName === '' || userName === null) {
@@ -81,5 +85,8 @@ export class App {
     if ($('#user-timeline').children().length < 1) {
       $('<div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"> no data to load </div></div>').appendTo('#user-timeline')
     }
+    $('.loader').addClass('is-hidden')
+    $('.timeline').removeClass('is-hidden')
+    $('.profile').removeClass('is-hidden')
   }
 }
