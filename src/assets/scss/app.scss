@@ -1,3 +1,5 @@
+$widescreen: 1280px;
+
 @import "~bulma";
 @import "~bulma-timeline";
 @import "~bulma-tooltip";
@@ -18,4 +20,15 @@
 
 .timeline .timeline-item {
   padding-bottom: 1em;
+}
+
+@media screen and (min-width: 1280px) {
+  body .column.is-one-third-widescreen {
+    width: 30%;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .column {
+    margin: 1rem;
+  }
 }

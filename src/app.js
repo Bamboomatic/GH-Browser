@@ -8,9 +8,6 @@ export class App {
 
     $('.load-username').on('click', function (e) {
       e.preventDefault();
-      $('.loader').removeClass('is-hidden')
-      $('.timeline').addClass('is-hidden')
-      $('.profile').addClass('is-hidden')
 
       let userName = $('.username.input').val();
 
@@ -21,7 +18,9 @@ export class App {
         $('input').addClass('is-danger')
       }
       else {
-
+        $('.loader').removeClass('is-hidden')
+        $('.timeline').addClass('is-hidden')
+        $('.profile').addClass('is-hidden')
         $('input').removeClass('is-danger')
         fetch('https://api.github.com/users/' + userName)
           .then(response => response.json())
