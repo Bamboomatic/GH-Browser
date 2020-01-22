@@ -34,6 +34,7 @@
     "bulma": "^0.7.1",
     "bulma-start": "^0.0.2",
     "bulma-timeline": "^2.0.3",
+    "bulma-tooltip": "^3.0.2",
     "whatwg-fetch": "^3.0.0"
   }
 }

@@ -7,17 +7,28 @@ export class App {
     let self = this;
 
     $('.load-username').on('click', function (e) {
+      e.preventDefault();
       let userName = $('.username.input').val();
 
-      fetch('https://api.github.com/users/' + userName)
-        .then(response => response.json())
-        .then(function (body) {
-          self.profile = body;
-          self.update_profile();
-        })
-        .catch((error) => {
-          console.error('There has been a problem with your fetch operation:', error);
-        });
+      if (userName === '' || userName === null) {
+        $('input').addClass('is-danger')
+      }
+      else if (!(/^[-a-zA-Z0-9_]*$/).test(userName)) {
+        $('input').addClass('is-danger')
+      }
+      else {
+        $('input').removeClass('is-danger')
+        fetch('https://api.github.com/users/' + userName)
+          .then(response => response.json())
+          .then(function (body) {
+            self.profile = body;
+            self.update_profile();
+          })
+          .catch((error) => {
+            console.error('There has been a problem with your fetch operation:', error);
+          });
+      }
+
     })
 
   }
@@ -26,6 +37,6 @@ export class App {
     $('#profile-name').text($('.username.input').val())
     $('#profile-image').attr('src', this.profile.avatar_url)
     $('#profile-url').attr('href', this.profile.html_url).text(this.profile.login)
-    $('#profile-bio').text(this.profile.bio || '(no information)')
+    $('#profile-bio').text(this.profile.bio || '(no information or user does not exist)')
   }
 }

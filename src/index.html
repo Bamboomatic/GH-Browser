@@ -7,20 +7,25 @@
     <nav class="navbar">
       <div class="navbar-brand">
         <div class="navbar-item">
-          <div class="field has-addons">
+          <form class="field has-addons">
             <div class="control">
               <input
                 class="input username"
                 type="text"
                 placeholder="enter github username"
+                required
               />
             </div>
             <div class="control">
-              <button class="button is-info load-username">
+              <button
+                type="submit"
+                class="button is-info load-username has-tooltip-right has-tooltip-multiline"
+                data-tooltip="username can only contain characters: `a-z`, `0-9`, `-`, `_`"
+              >
                 Load
               </button>
             </div>
-          </div>
+          </form>
         </div>
 
         <div class="navbar-item">
@@ -70,14 +75,14 @@
               <div class="timeline-content">
                 <p class="heading">Jan 21, 2016</p>
                 <div class="content">
-          <!-- "user image ... is not aligned properly". I don't know how you wanted it to be alligned so i assumed that it only lack margin and text to be more 'around'. 
+                  <!-- "user image ... is not aligned properly". I don't know how you wanted it to be alligned so i assumed that it only lack margin and text to be more 'around'. 
             Otherwise we need to pull <a> username out of span and make other containers to play with position, but then gh-username will be invalid name, more like gh-useravatar. 
           -->
                   <span class="gh-username is-flex">
                     <img
                       src="https://avatars.githubusercontent.com/u/2310778?"
                     />
-                  <a href="https://github.com/sethii">sethii</a> 
+                    <a href="https://github.com/sethii">sethii</a>
                   </span>
                   closed
                   <a href="https://github.com/TheSoftwareHouse/Kakunin/pull/41"
