@@ -6,6 +6,7 @@ const path = require('path'),
 
 const extractPlugin = new ExtractTextPlugin({ filename: './assets/css/app.css' });
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BrotliGzipPlugin = require('brotli-gzip-webpack-plugin');
 const config = {
 
   context: path.resolve(__dirname, 'src'),
@@ -84,6 +85,20 @@ const config = {
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({ template: 'index.html' }),
     new webpack.optimize.ModuleConcatenationPlugin(),
+    new BrotliGzipPlugin({
+      asset: '[path].br[query]',
+      algorithm: 'brotli',
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8
+    }),
+    new BrotliGzipPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8
+    }),
     new BundleAnalyzerPlugin(),
     extractPlugin
   ],

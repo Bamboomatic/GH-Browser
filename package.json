@@ -15,6 +15,7 @@
     "babel-core": "~6.26.0",
     "babel-loader": "~7.1.2",
     "babel-preset-env": "~1.6.0",
+    "brotli-gzip-webpack-plugin": "^0.5.0",
     "cash-dom": "^2.3.9",
     "clean-webpack-plugin": "~0.1.17",
     "css-loader": "~0.28.7",
