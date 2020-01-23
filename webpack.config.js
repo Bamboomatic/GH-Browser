@@ -5,7 +5,7 @@ const path = require('path'),
   ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const extractPlugin = new ExtractTextPlugin({ filename: './assets/css/app.css' });
-
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const config = {
 
   context: path.resolve(__dirname, 'src'),
@@ -83,6 +83,8 @@ const config = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({ template: 'index.html' }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new BundleAnalyzerPlugin(),
     extractPlugin
   ],
 
