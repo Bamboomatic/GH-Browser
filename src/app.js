@@ -11,6 +11,13 @@ export class App {
 
       let userName = $('.username.input').val();
 
+      function handleErrors(response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response;
+      }
+
       if (userName === '' || userName === null) {
         $('input').addClass('is-danger')
       }
@@ -23,6 +30,7 @@ export class App {
         $('.profile').addClass('is-hidden')
         $('input').removeClass('is-danger')
         fetch('https://api.github.com/users/' + userName)
+          .then(handleErrors)
           .then(response => response.json())
           .then(function (body) {
             self.profile = body;
@@ -36,6 +44,9 @@ export class App {
                 self.load_events();
               }
               )
+              .catch((error) => {
+                console.error('There has been a problem with your fetch operation:', error);
+              })
           )
           .catch((error) => {
             console.error('There has been a problem with your fetch operation:', error);
@@ -53,34 +64,42 @@ export class App {
 
   load_events() {
     $('#user-timeline').empty()
-    this.events.forEach(e => {
-      if (e.type === "PullRequestEvent" || e.type === "PullRequestReviewCommentEvent") {
+    if (this.events.message === "Not Found") {
+      $('<div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"> 404 = not found! User do not exist ;( ) </div></div>').appendTo('#user-timeline')
+      $('.profile').empty()
+      $('.profile').text('(404 - user does not exist)')
+    }
+    else {
+      this.events.forEach(e => {
+        if (e.type === "PullRequestEvent" || e.type === "PullRequestReviewCommentEvent") {
 
-        let date = new Date(e.created_at)
-        let commentItem = e.type === "PullRequestReviewCommentEvent" ? ('<a href="' + e.payload.pull_request.url + '">' + ' comment ' + '</a> to ') : ''
+          let date = new Date(e.created_at)
+          let commentItem = e.type === "PullRequestReviewCommentEvent" ? ('<a href="' + e.payload.pull_request.url + '">' + ' comment ' + '</a> to ') : ''
 
-        let timelineItem = $(
-          '<aside class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content">' +
-          '<p class="heading">' +
-          date.toDateString() +
-          '</p><div class="content"><span class="gh-username is-flex">' +
-          '<img src="' + e.payload.pull_request.user.avatar_url + '"/>' +
-          '<a href="' + e.payload.pull_request.user.url + '">' +
-          e.payload.pull_request.user.login +
-          '</a></span>' +
-          e.payload.action +
-          commentItem +
-          '<a href="' + e.payload.pull_request.url + '">' +
-          ' pull request' +
-          '</a>' +
-          '<p class="repo-name">' +
-          '<a href="' + e.repo.url + '">' +
-          e.repo.name +
-          '</a></p></div></div></aside>');
+          let timelineItem = $(
+            '<aside class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content">' +
+            '<p class="heading">' +
+            date.toDateString() +
+            '</p><div class="content"><span class="gh-username is-flex">' +
+            '<img src="' + e.payload.pull_request.user.avatar_url + '"/>' +
+            '<a href="' + e.payload.pull_request.user.url + '">' +
+            e.payload.pull_request.user.login +
+            '</a></span>' +
+            e.payload.action +
+            commentItem +
+            '<a href="' + e.payload.pull_request.url + '">' +
+            ' pull request' +
+            '</a>' +
+            '<p class="repo-name">' +
+            '<a href="' + e.repo.url + '">' +
+            e.repo.name +
+            '</a></p></div></div></aside>');
 
-        $(timelineItem).appendTo('#user-timeline')
-      }
-    });
+          $(timelineItem).appendTo('#user-timeline')
+        }
+      });
+    }
+
     if ($('#user-timeline').children().length < 1) {
       $('<div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"> no data to load </div></div>').appendTo('#user-timeline')
     }
