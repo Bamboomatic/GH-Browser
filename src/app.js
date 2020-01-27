@@ -11,13 +11,6 @@ export class App {
 
       let userName = $('.username.input').val();
 
-      function handleErrors(response) {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response;
-      }
-
       if (userName === '' || userName === null) {
         $('input').addClass('is-danger')
       }
@@ -30,7 +23,6 @@ export class App {
         $('.profile').addClass('is-hidden')
         $('input').removeClass('is-danger')
         fetch('https://api.github.com/users/' + userName)
-          .then(handleErrors)
           .then(response => response.json())
           .then(function (body) {
             self.profile = body;
