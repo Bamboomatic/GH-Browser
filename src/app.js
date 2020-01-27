@@ -25,6 +25,7 @@ export class App {
         fetch('https://api.github.com/users/' + userName)
           .then(response => response.json())
           .then(function (body) {
+            console.log(body);
             self.profile = body;
             self.update_profile();
           })
@@ -32,6 +33,7 @@ export class App {
             fetch('https://api.github.com/users/' + userName + '/events/public')
               .then(resp => resp.json())
               .then(function (data) {
+                console.log(data);
                 self.events = data;
                 self.load_events();
               }
@@ -68,7 +70,7 @@ export class App {
         if (e.type === "PullRequestEvent" || e.type === "PullRequestReviewCommentEvent") {
 
           let date = new Date(e.created_at)
-          let commentItem = e.type === "PullRequestReviewCommentEvent" ? ('<a href="' + e.payload.pull_request.url + '">' + ' comment ' + '</a> to ') : ''
+          let commentItem = e.type === "PullRequestReviewCommentEvent" ? ('<a href="' + e.payload.comment.html_url + '">' + ' comment ' + '</a> to ') : ''
 
           let timelineItem = $(
             '<aside class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content">' +
@@ -76,16 +78,16 @@ export class App {
             date.toDateString() +
             '</p><div class="content"><span class="gh-username is-flex">' +
             '<img src="' + e.payload.pull_request.user.avatar_url + '"/>' +
-            '<a href="' + e.payload.pull_request.user.url + '">' +
+            '<a href="' + e.payload.pull_request.user.html_url + '">' +
             e.payload.pull_request.user.login +
             '</a></span>' +
             e.payload.action +
             commentItem +
-            '<a href="' + e.payload.pull_request.url + '">' +
+            '<a href="' + e.payload.pull_request.html_url + '">' +
             ' pull request' +
             '</a>' +
             '<p class="repo-name">' +
-            '<a href="' + e.repo.url + '">' +
+            '<a href="https://github.com/' + e.repo.name + '">' +
             e.repo.name +
             '</a></p></div></div></aside>');
 
