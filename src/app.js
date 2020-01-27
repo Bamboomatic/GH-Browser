@@ -66,8 +66,10 @@ export class App {
     $('#user-timeline').empty()
     if (this.events.message === "Not Found") {
       $('<div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"> 404 = not found! User do not exist ;( ) </div></div>').appendTo('#user-timeline')
-      $('.profile').empty()
-      $('.profile').text('(404 - user does not exist)')
+      $('#profile-name').text($('.username.input').val())
+      $('#profile-image').attr('src', "")
+      $('#profile-url').attr('href', "").text(" ")
+      $('#profile-bio').text('(404 - user does not exist)')
     }
     else {
       this.events.forEach(e => {
