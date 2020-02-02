@@ -59,33 +59,60 @@ export class App {
         let date = new Date(e.created_at)
         let commentItem = e.type === "PullRequestReviewCommentEvent" ? ('<a href="' + e.payload.pull_request.url + '">' + ' comment ' + '</a> to ') : ''
 
-        let timelineItem = $(
-          '<aside class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content">' +
-          '<p class="heading">' +
-          date.toDateString() +
-          '</p><div class="content"><span class="gh-username is-flex">' +
-          '<img src="' + e.payload.pull_request.user.avatar_url + '"/>' +
-          '<a href="' + e.payload.pull_request.user.url + '">' +
-          e.payload.pull_request.user.login +
-          '</a></span>' +
-          e.payload.action +
-          commentItem +
-          '<a href="' + e.payload.pull_request.url + '">' +
-          ' pull request' +
-          '</a>' +
-          '<p class="repo-name">' +
-          '<a href="' + e.repo.url + '">' +
-          e.repo.name +
-          '</a></p></div></div></aside>');
+        let timelineItem = (
+          { < aside class="timeline-item" >
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <p class="heading">{date.toDateString()}</p>
+              <div class="content">
+                <span class="gh-username is-flex">
+                  <img src="e.payload.pull_request.user.avatar_url" />
+                  <a href="e.payload.pull_request.user.url">
+                    {e.payload.pull_request.user.login}
+                  </a>
+                </span>
+                {e.payload.action}
+                {commentItem}
+                <a href="e.payload.pull_request.url">
+                  pull request
+                </a>
+                <p class="repo-name">
+                  <a href="e.repo.url">
+                    {e.repo.name}
+                  </a>
+                </p>
+              </div>
+            </div>
+          </aside >}
+          )
 
-        $(timelineItem).appendTo('#user-timeline')
-      }
-    });
-    if ($('#user-timeline').children().length < 1) {
-      $('<div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"> no data to load </div></div>').appendTo('#user-timeline')
-    }
-    $('.loader').addClass('is-hidden')
-    $('.timeline').removeClass('is-hidden')
-    $('.profile').removeClass('is-hidden')
+    // $(
+    //   '<aside class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content">' +
+    //   '<p class="heading">' +
+    //   date.toDateString() +
+    //   '</p><div class="content"><span class="gh-username is-flex">' +
+    //   '<img src="' + e.payload.pull_request.user.avatar_url + '"/>' +
+    //   '<a href="' + e.payload.pull_request.user.url + '">' +
+    //   e.payload.pull_request.user.login +
+    //   '</a></span>' +
+    //   e.payload.action +
+    //   commentItem +
+    //   '<a href="' + e.payload.pull_request.url + '">' +
+    //   ' pull request' +
+    //   '</a>' +
+    //   '<p class="repo-name">' +
+    //   '<a href="' + e.repo.url + '">' +
+    //   e.repo.name +
+    //   '</a></p></div></div></aside>');
+
+    $(timelineItem).appendTo('#user-timeline')
+  }
+});
+if ($('#user-timeline').children().length < 1) {
+  $('<div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"> no data to load </div></div>').appendTo('#user-timeline')
+}
+$('.loader').addClass('is-hidden')
+$('.timeline').removeClass('is-hidden')
+$('.profile').removeClass('is-hidden')
   }
 }
